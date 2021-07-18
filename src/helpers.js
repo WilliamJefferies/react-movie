@@ -14,7 +14,7 @@ export const convertMoney = (money) => {
   return formatter.format(money);
 };
 // use local storage
-export const isPersistedState = (stateName) => {
+export const ifPersistedState = (stateName) => {
   const sessionState = sessionStorage.getItem(stateName);
   return sessionState && JSON.parse(sessionState);
 };

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../API";
+import { ifPersistedState } from "../helpers";
 
 export const useMoiveFetch = (movieId) => {
   const [state, setState] = useState({});
@@ -31,8 +32,20 @@ export const useMoiveFetch = (movieId) => {
         setError(true);
       }
     };
+    const sessionState = ifPersistedState(movieId);
+
+    if (sessionState) {
+      setLoading(false);
+      return;
+    }
+
     fetchData();
   }, [movieId]);
+
+  // write to session storage
+  useEffect(() => {
+    sessionStorage.setItem(movieId, JSON.stringify(state));
+  }, [movieId, state]);
 
   return { state, loading, error };
 };
